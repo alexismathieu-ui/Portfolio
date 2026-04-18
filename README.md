@@ -1,37 +1,54 @@
-# Portfolio — Alexis MATHIEU (portfolio-pro)
+# Portefolio — Alexis MATHIEU
 
-Site portfolio statique construit avec **Vite**, **React**, **TypeScript**, **GSAP** (ScrollTrigger), **Framer Motion**, **Lenis** (scroll fluide) et **Three.js / React Three Fiber** pour la sphère du hero. Profil et dépôts alignés sur [github.com/alexismathieu-ui](https://github.com/alexismathieu-ui).
+Site portfolio statique (**Vite**, **React**, **TypeScript**, GSAP, Lenis, **Three.js / R3F** pour le hero). Code source : [github.com/alexismathieu-ui/Portefolio](https://github.com/alexismathieu-ui/Portefolio).
 
-## Mettre le projet sur GitHub et le publier (GitHub Pages)
+**Site en ligne (après activation de GitHub Pages)** : [alexismathieu-ui.github.io/Portefolio](https://alexismathieu-ui.github.io/Portefolio/)
 
-1. **Créer un dépôt** sur GitHub (vide, sans ajouter de README si tu pousses depuis ton PC).
-2. **À la racine du dossier** `portfolio-pro` :
+## Pousser le code vers GitHub
 
-   ```bash
-   git init
-   git add .
-   git commit -m "Portfolio Vite + React"
-   git branch -M main
-   git remote add origin https://github.com/TON_USER/TON_REPO.git
-   git push -u origin main
-   ```
-
-3. **Activer Pages** : sur le dépôt GitHub → **Settings** → **Pages** → **Build and deployment** → **Source** : **GitHub Actions** (pas « Deploy from a branch »).
-4. Un **workflow** (`.github/workflows/deploy-github-pages.yml`) lance le build à chaque push sur `main` ou `master` et publie le dossier `dist`. Après la première exécution réussie, l’URL s’affiche dans **Settings → Pages** (souvent `https://TON_USER.github.io/TON_REPO/`).
-
-**Dépôt de site utilisateur** (`USERNAME.github.io`) : l’URL est `https://USERNAME.github.io/` ; le `base` Vite reste `/` automatiquement.
-
-**Tester un build « sous-chemin » en local** (optionnel) :
+À la racine du dossier du projet (celui qui contient `package.json`) :
 
 ```bash
-set GITHUB_REPOSITORY=ton-user/ton-repo
-npm run build
-npm run preview
+git init
+git add .
+git commit -m "Portfolio Vite + React"
+git branch -M main
+git remote add origin https://github.com/alexismathieu-ui/Portefolio.git
+git push -u origin main
 ```
 
-Sur PowerShell : `$env:GITHUB_REPOSITORY='ton-user/ton-repo'; npm run build`. Tu peux aussi forcer la base avec `VITE_BASE_PATH=/mon-sous-chemin/`.
+Si `git remote add` échoue car `origin` existe déjà :
 
-## Démarrage
+```bash
+git remote set-url origin https://github.com/alexismathieu-ui/Portefolio.git
+git push -u origin main
+```
+
+### Le dépôt GitHub a déjà un README (historique différent)
+
+Tu peux fusionner l’historique distant avec le tien :
+
+```bash
+git pull origin main --allow-unrelated-histories
+# résoudre les conflits si Git en signale, puis :
+git push -u origin main
+```
+
+Ou, si le dépôt distant ne contient qu’un README à remplacer et tu acceptes d’écraser :
+
+```bash
+git push -u origin main --force
+```
+
+(à utiliser seulement si tu es sûr de ne pas perdre de travail sur GitHub.)
+
+## Publier sur GitHub Pages
+
+1. Sur le dépôt : **Settings** → **Pages** → **Build and deployment** → **Source** : **GitHub Actions**.
+2. Le workflow [`.github/workflows/deploy-github-pages.yml`](.github/workflows/deploy-github-pages.yml) build et publie `dist` à chaque push sur `main` ou `master`.
+3. L’URL du site est en général **`https://alexismathieu-ui.github.io/Portefolio/`** (le `base` Vite utilise automatiquement le nom du dépôt `Portefolio`).
+
+## Démarrage en local
 
 ```bash
 npm install
@@ -45,23 +62,25 @@ npm run build
 npm run preview
 ```
 
+Tester un build comme sur Pages (sous-chemin) :
+
+```powershell
+$env:GITHUB_REPOSITORY='alexismathieu-ui/Portefolio'; npm run build; npm run preview
+```
+
 ## Personnalisation
 
-- **Profil, bio, compétences, liens** : modifiez [`src/data/profile.ts`](src/data/profile.ts) (notamment `email` et `social`).
-- **Projets** : [`src/data/projects.ts`](src/data/projects.ts) — remplacez les URLs d’images par vos captures locales si besoin (`import` depuis `src/assets` ou fichiers dans `public/`).
-- **CV** : le fichier [`public/cv.pdf`](public/cv.pdf) correspond au CV d’Alexis (copie depuis le dossier Téléchargements). Remplacez-le après une mise à jour du CV si besoin.
+- **Profil, bio, compétences, liens** : [`src/data/profile.ts`](src/data/profile.ts)
+- **Projets** : [`src/data/projects.ts`](src/data/projects.ts)
+- **CV** : [`public/cv.pdf`](public/cv.pdf)
 
 ## Accessibilité & performances
 
-- Le hero **WebGL** est désactivé sur petits écrans (`max-width: 900px`), si le CPU est faible (`hardwareConcurrency < 4`) ou si l’utilisateur a **`prefers-reduced-motion`** : un **fond CSS** animé prend le relais.
+- Le hero **WebGL** est désactivé sur petits écrans, si le CPU est faible ou si **`prefers-reduced-motion`** est activé : fond **CSS** de secours.
 - **Lenis** est désactivé lorsque `prefers-reduced-motion` est activé.
-
-## Ancien site statique
-
-Un brouillon HTML/CSS reste à la racine du dossier parent : `portfolio-developpeur.html` (non modifié par ce projet).
 
 ## Messages dans la console du navigateur
 
-- **« Download the React DevTools… »** : simple invitation en **mode développement** (`npm run dev`). Ce n’est pas une erreur ; en build production elle n’apparaît pas.
-- **`THREE.Clock` déprécié** : le projet utilise **`three@0.182.0`** (sans ce message). Si tu le vois encore, supprime `node_modules`, réinstalle avec `npm install`, ou vide le cache du navigateur (souvent une vieille version de `three` en cache).
-- **`chrome-extension://… querySelector`** : erreur d’une **extension Chrome** (souvent un thème / injecteur de styles), **pas du portfolio**. Teste en navigation privée sans extensions ou désactive l’extension indiquée dans l’URL.
+- **React DevTools** en dev uniquement.
+- **`THREE.Clock` déprécié** : vérifier `three@0.182.0` et cache navigateur.
+- **`chrome-extension://…`** : souvent une extension, pas le site.

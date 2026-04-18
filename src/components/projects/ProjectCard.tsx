@@ -5,6 +5,7 @@ import {
   useSpring,
 } from 'framer-motion'
 import type { Project } from '../../data/projects'
+import { withBase } from '../../lib/withBase'
 
 type Props = { project: Project }
 
@@ -12,6 +13,11 @@ type Props = { project: Project }
  * Carte projet : tilt 3D léger (springs) + élévation au survol sur un enfant
  * pour ne pas écraser le transform du tilt.
  */
+function projectImageSrc(image: string): string {
+  if (image.startsWith('http://') || image.startsWith('https://')) return image
+  return withBase(image)
+}
+
 export function ProjectCard({ project }: Props) {
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
@@ -46,7 +52,7 @@ export function ProjectCard({ project }: Props) {
       >
         <div className="project-card__media">
           <img
-            src={project.image}
+            src={projectImageSrc(project.image)}
             alt=""
             loading="lazy"
             decoding="async"

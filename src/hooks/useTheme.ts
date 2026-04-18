@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-const STORAGE_KEY = 'portfolio-pro-theme'
+const STORAGE_KEY = 'portefolio-theme'
 
 export type Theme = 'light' | 'dark'
 

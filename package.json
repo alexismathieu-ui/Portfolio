@@ -1,7 +1,12 @@
 {
-  "name": "portfolio-pro",
+  "name": "portefolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "homepage": "https://alexismathieu-ui.github.io/Portefolio/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexismathieu-ui/Portefolio.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
