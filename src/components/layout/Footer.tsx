@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <p>
-        © {year} {profile.name} — Construit avec un max de Passion et de Boisson.
+        © {year} {profile.name}. Tous droits réservés.
       </p>
     </footer>
   )
