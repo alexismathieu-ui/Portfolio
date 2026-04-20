@@ -42,7 +42,7 @@ export function ProjectsSection({ reducedMotion }: Props) {
       <div className="section__head">
         <h2>Projets</h2>
         <p className="section__intro">
-          Une sélection de réalisations récentes — cartes interactives, images lazy-loadées.
+          Une sélection de réalisations récentes, mettant en avant mes compétences en développement web et ma capacité à créer des solutions innovantes et efficaces.
         </p>
       </div>
       <div ref={gridRef} className="projects__grid">

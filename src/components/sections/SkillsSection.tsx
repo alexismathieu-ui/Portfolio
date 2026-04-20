@@ -55,8 +55,7 @@ export function SkillsSection({ reducedMotion }: Props) {
       <div className="section__head">
         <h2 id="skills-title">Compétences</h2>
         <p className="section__intro">
-          Barres indicatives + outils et thèmes que j’explore au quotidien ou en
-          projet.
+          Mon barème de compétences, illustrant mes domaines d'expertise et mon niveau de maîtrise dans divers aspects du développement web
         </p>
       </div>
       <div ref={barsRef} className="skills__bars">
