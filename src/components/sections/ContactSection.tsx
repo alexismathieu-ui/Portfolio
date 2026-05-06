@@ -1,13 +1,22 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { profile } from '../../data/profile'
-import { buildMailto } from '../../lib/mailto'
 
 type FormValues = {
   name: string
   email: string
   subject: string
   message: string
+}
+
+function buildGmailComposeUrl(opts: { to: string; subject: string; body: string }): string {
+  const params = new URLSearchParams()
+  params.set('view', 'cm')
+  params.set('fs', '1')
+  params.set('to', opts.to)
+  if (opts.subject) params.set('su', opts.subject)
+  if (opts.body) params.set('body', opts.body)
+  return `https://mail.google.com/mail/?${params.toString()}`
 }
 
 export function ContactSection() {
@@ -26,17 +35,12 @@ export function ContactSection() {
       data.message,
     ].join('\n')
 
-    const url = buildMailto({
+    const url = buildGmailComposeUrl({
       to: profile.email,
       subject: data.subject,
       body,
     })
-    const a = document.createElement('a')
-    a.href = url
-    a.rel = 'noopener noreferrer'
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
+    window.open(url, '_blank', 'noopener,noreferrer')
   }
 
   const copyEmail = async () => {
@@ -54,7 +58,7 @@ export function ContactSection() {
       <div className="section__head">
         <h2>Contact</h2>
         <p className="section__intro">
-          Écrivez-moi : le formulaire ouvre votre client mail avec le message prérempli.
+          Écrivez-moi : le formulaire ouvre Gmail avec le message prérempli.
         </p>
       </div>
 
@@ -127,7 +131,7 @@ export function ContactSection() {
 
           <div className="contact__actions">
             <button type="submit" className="btn btn--primary">
-              Ouvrir dans mon client mail
+              Ouvrir dans Gmail
             </button>
             <button
               type="button"
