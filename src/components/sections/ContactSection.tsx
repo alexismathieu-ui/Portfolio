@@ -13,6 +13,7 @@ function buildGmailComposeUrl(opts: { to: string; subject: string; body: string 
   const params = new URLSearchParams()
   params.set('view', 'cm')
   params.set('fs', '1')
+  params.set('tf', '1')
   params.set('to', opts.to)
   if (opts.subject) params.set('su', opts.subject)
   if (opts.body) params.set('body', opts.body)
@@ -28,19 +29,26 @@ export function ContactSection() {
   } = useForm<FormValues>({ mode: 'onBlur' })
 
   const onSubmit = (data: FormValues) => {
-    const body = [
-      `Nom : ${data.name}`,
-      `E-mail : ${data.email}`,
-      '',
-      data.message,
-    ].join('\n')
+    const body = data.message
 
     const url = buildGmailComposeUrl({
       to: profile.email,
       subject: data.subject,
       body,
     })
-    window.open(url, '_blank', 'noopener,noreferrer')
+    const width = 980
+    const height = 760
+    const left = Math.max(0, Math.floor((window.screen.width - width) / 2))
+    const top = Math.max(0, Math.floor((window.screen.height - height) / 2))
+    const popup = window.open(
+      url,
+      'gmail-compose',
+      `popup=yes,noopener,noreferrer,width=${width},height=${height},left=${left},top=${top}`,
+    )
+    if (!popup) {
+      // Fallback si le navigateur bloque la popup.
+      window.location.href = url
+    }
   }
 
   const copyEmail = async () => {
